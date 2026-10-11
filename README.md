@@ -287,11 +287,45 @@ targetselector/
 ├── hostextract.py   资产清单 → 归一化 host（离线）
 ├── accountface.py   账号面快筛（≤8 请求/域）
 └── loginlogic.py    登录逻辑探测（≤32 请求/域）
+tools/
+└── cookie_lab.py    跨站 Cookie 属性组合实测台（隔离回环双站 + 第一方自校验）
 examples/
 ├── hosts.example.txt
 └── scope.example.json
 COMPLIANCE.md        使用边界与合规要求（必读）
 ```
+
+---
+
+## 附：跨站 Cookie 实测台（`tools/cookie_lab.py`）
+
+用来回答一个很具体的问题：**某个 Cookie 属性组合，在真实浏览器下会不会被跨站携带？**
+
+它在**本机两个回环 IP** 上分别起"受害站（HTTPS）"与"攻击者源（HTTP）"——
+天然属于不同 registrable domain，因此是**真跨站**，不需要改 hosts，也不碰任何外部网络。
+
+```bash
+python3 tools/cookie_lab.py run      # 跑 4 组合 × 2 种 Chrome 设置，打印矩阵
+```
+
+实测结果（Chrome 152.0.7977.64）：
+
+| Cookie 属性 | 第一方请求 | 跨站（关闭 3PC 封锁） | 跨站（Chrome 默认） |
+|---|---|---|---|
+| `SameSite=None`（无 `Secure`） | **❌ 没存上** | ❌ | ❌ |
+| `SameSite=None; Secure` | ✅ | **✅ 发送** | **✅ 发送** |
+| `SameSite=Lax` | ✅ | ❌ | ❌ |
+| `SameSite=Strict` | ✅ | ❌ | ❌ |
+
+**它内置了一个关键的自校验步骤**：每组实验都会先确认"第一方请求真的带上了这个 Cookie"。
+没有这一步，你无法区分"Cookie 没存上"与"存上了但跨站不发送"——
+而这两者的根因和修复方案完全不同。（这个坑我们在开发时就踩过一次：
+Cookie 没写 `Max-Age` 时会话 Cookie 不落盘，直接导致全组假阴性。）
+
+**局限（写在这里而不是藏起来）**：受害站是回环 IP，Chrome 对 localhost 的第三方 Cookie
+策略可能存在豁免，因此本结果**不能外推**到公网域名；也只测了 Chrome 一个内核。
+
+---
 
 ## 许可
 
