@@ -1,0 +1,27 @@
+{
+  "_说明": "授权范围声明的示例结构。真实的授权范围请以平台页面/合同文本为准，并保留原文。",
+  "scope_name": "example-src-program",
+  "authorization_type": "public-bug-bounty-platform",
+  "authorized_assets": [
+    "example.com",
+    "*.example.com",
+    "another.example.org"
+  ],
+  "excluded_assets": [
+    "third-party.example.net"
+  ],
+  "rules": {
+    "max_requests_per_host": 8,
+    "concurrency": 8,
+    "forbidden": [
+      "大流量扫描",
+      "DoS 类验证",
+      "业务逻辑扰动",
+      "自动化提交表单",
+      "内网跳板"
+    ],
+    "evidence_requirement": "见所属平台页面的报告规范；各平台口径可能相反，动手前先读"
+  },
+  "authorized_by": "self-attested",
+  "authorized_on": "YYYY-MM-DD"
+}

@@ -1,0 +1,11 @@
+# 示例资产清单（全部为保留域名，不可用于真实测试）
+# 每行一个条目，支持：域名 / URL / 通配符 / 带端口 / 注释
+www.example.com
+https://mail.example.com/login
+*.example.com:8443/portal
+example.com
+sub.example.co.uk
+another.example.org
+# 下面两条会被丢弃（用于演示数据质量统计）
+192.168.1.10
+localhost
