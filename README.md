@@ -71,7 +71,7 @@
 ## 安装
 
 ```bash
-git clone <this-repo> && cd src-target-selector
+git clone https://github.com/wcy0000/src-target-selector && cd src-target-selector
 python3 -m pip install -r requirements.txt   # 只需要 requests
 ```
 
