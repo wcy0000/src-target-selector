@@ -1,0 +1,26 @@
+{
+  "_说明": "黄金样例：hostextract 在 examples/hosts.example.txt 上的确定性输出。任何静默变更都会让 verify.py 失败。",
+  "input": "examples/hosts.example.txt",
+  "expected_stats": {
+    "输入行数": 11,
+    "去重后 host 数（含子域）": 5,
+    "最终 host 数": 3,
+    "丢弃条数": 2,
+    "二级域数": 3,
+    "多子域站点数": 1
+  },
+  "expected_hosts": [
+    "example.co.uk",
+    "example.com",
+    "example.org"
+  ],
+  "expected_dropped": [
+    "192.168.1.10",
+    "localhost"
+  ],
+  "expected_submap_keys": [
+    "example.co.uk",
+    "example.com",
+    "example.org"
+  ]
+}
